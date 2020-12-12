@@ -3,7 +3,7 @@ import string
 
 def validate(name, value):
 	if name == "byr":
-		return (len(value) == 4 and value.isdigit())
+		return (value.isdigit() and int(value) >= 1920 and int(value) <= 2002)
 	elif name == "iyr":
 		return (value.isdigit() and int(value) >= 2010 and int(value) <= 2020)
 	elif name == "eyr":
@@ -18,13 +18,11 @@ def validate(name, value):
 		else:
 			return False
 	elif name == "hcl":
-		return (value[0] == "#" and len(value) == 7 and (value[1:].isdigit() or all(c in string.hexdigits for c in value[1:])))
+		return (value[0] == "#" and len(value) == 7 and all(c in string.hexdigits for c in value[1:]))
 	elif name == "ecl":
-		return (value in ["amb", "blu", "brn", "gry ", "grn", "hzl", "oth"])
+		return (value in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"])
 	elif name == "pid":
 		return (len(value) == 9 and value.isdigit())
-	elif name == "cid":
-		return True
 	else:
 		return False
 
@@ -39,7 +37,6 @@ fields["hgt"] = False
 fields["hcl"] = False
 fields["ecl"] = False
 fields["pid"] = False
-fields["cid"] = False
 
 with open("day4.txt") as fp:
  	for line in fp:
@@ -50,7 +47,7 @@ with open("day4.txt") as fp:
  			for value in fields.values():
  				if value:
  					fieldCount += 1
- 			if (fieldCount == 8 or (fieldCount == 7 and fields["cid"] == False)):
+ 			if (fieldCount == 7):
  				validCount += 1
 
  			#restore
@@ -61,7 +58,6 @@ with open("day4.txt") as fp:
 			fields["hcl"] = False
 			fields["ecl"] = False
 			fields["pid"] = False
-			fields["cid"] = False
 
  		else:
  			fieldArray = line.strip().split(" ")
@@ -76,7 +72,7 @@ fieldCount = 0
 for value in fields.values():
  	if value:
  		fieldCount += 1
- 	if (fieldCount == 8 or (fieldCount == 7 and fields["cid"] == False)):
- 		validCount += 1
+if (fieldCount == 7):
+	validCount += 1
 			
 print(validCount)
