@@ -22,9 +22,9 @@ def validate(name, value):
 	elif name == "ecl":
 		return (value in ["amb", "blu", "brn", "gry ", "grn", "hzl", "oth"])
 	elif name == "pid":
-		return True
-	elif name == "cid":
 		return (len(value) == 9 and value.isdigit())
+	elif name == "cid":
+		return True
 	else:
 		return False
 
