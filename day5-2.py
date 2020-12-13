@@ -1,6 +1,6 @@
 import sys
 
-highestSeatId = 0
+seats = [False] * (128 * 8)
 
 with open("day5.txt") as fp:
  	for line in fp:
@@ -33,7 +33,8 @@ with open("day5.txt") as fp:
  			column = back
 		
 		seatId = row * 8 + column
-		if (seatId > highestSeatId):
-			highestSeatId = seatId
+		seats[seatId] = True
 
-print(highestSeatId)
+for i in range(1, len(seats)-1):
+	if (not(seats[i]) and seats[i-1] and seats[i+1]):
+		print(i)
