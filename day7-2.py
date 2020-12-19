@@ -1,13 +1,11 @@
 import sys
 
 def findShinyGold(hierarchy, bag):
-	if (bag == "shiny gold"):
-		return True
-	else:
-		for newBag in hierarchy[bag]:
-			if findShinyGold(hierarchy, newBag):
-				return True
-		return False
+	sum = 0
+	for newBag in hierarchy[bag]:
+		number = findShinyGold(hierarchy, newBag[0])
+		sum += newBag[1] * (number + 1)
+	return sum
 
 
 hierarchy = {}
@@ -21,13 +19,11 @@ with open("day7.txt") as fp:
  		while (i < len(words)):
  			child = words[i] + " " + words[i+1]
  			if child != "other bags.":
-	 			children.append(child)
+ 				count = int(words[i-1])
+	 			children.append([child, count])
  			i += 4
  		hierarchy[parent] = children
 
-sum = 0
-for key in hierarchy.keys():
-	if findShinyGold(hierarchy, key):
-		sum += 1
+goldCount = findShinyGold(hierarchy, "shiny gold")
 
-print(sum - 1)
+print(goldCount)
